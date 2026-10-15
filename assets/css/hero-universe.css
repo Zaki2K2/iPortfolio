@@ -1,0 +1,151 @@
+/*--------------------------------------------------------------
+# Hero: Living Developer Universe
+--------------------------------------------------------------*/
+.hu-hero {
+  --hu-bg: #060a12;
+  --hu-cyan: #22d3ee;
+  --hu-blue: #3b82f6;
+  --hu-violet: #8b5cf6;
+  --hu-text: #f4f8ff;
+  --hu-muted: #a9b8cf;
+  --hu-faint: #8196b4;
+
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  height: auto;
+  min-height: 100vh;
+  padding: 21vh 0 0;
+  overflow: hidden;
+  color: var(--hu-text);
+  background: var(--hu-bg);
+  clip-path: inset(0); /* clips the fixed backdrop to the hero box */
+}
+
+/* Backdrop: stays put while the page scrolls over it (like the original hero). */
+.hu-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 55% at 78% 48%, rgba(59, 130, 246, 0.14), transparent 70%),
+    radial-gradient(ellipse 40% 40% at 92% 12%, rgba(139, 92, 246, 0.12), transparent 70%),
+    radial-gradient(ellipse 45% 45% at 55% 100%, rgba(34, 211, 238, 0.07), transparent 70%),
+    var(--hu-bg);
+}
+
+/* Canvas: bottom half on small screens, right side on wide screens. */
+.hu-canvas {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 46%;
+  pointer-events: none;
+}
+
+.hu-container {
+  position: relative;
+  z-index: 3;
+}
+
+.hu-content {
+  max-width: 560px;
+}
+
+#hero .hu-title {
+  margin: 0 0 14px;
+  font-size: clamp(2.2rem, 4.6vw, 4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--hu-text);
+}
+
+#hero .hu-lead {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  font-size: clamp(1.1rem, 2vw, 1.6rem);
+  line-height: 1.5;
+  color: var(--hu-text);
+}
+
+#hero .hu-lead .typed {
+  padding-bottom: 4px;
+  letter-spacing: 1px;
+  border-bottom: 3px solid #149ddd;
+}
+
+/* Entrance */
+@keyframes hu-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+.hu-content > * {
+  opacity: 0;
+  animation: hu-rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+}
+.hu-content > :nth-child(1) { animation-delay: 0.1s; }
+.hu-content > :nth-child(2) { animation-delay: 0.22s; }
+.hu-content > :nth-child(3) { animation-delay: 0.36s; }
+.hu-content > :nth-child(4) { animation-delay: 0.5s; }
+.hu-content > :nth-child(5) { animation-delay: 0.64s; }
+
+@media (min-width: 1024px) {
+  .hu-bg {
+    position: fixed;
+    inset: 0 auto auto 0;
+    width: 100%;
+    height: 100vh;
+  }
+}
+
+@media (min-width: 992px) {
+  .hu-hero {
+    align-items: center;
+    height: 100vh;
+    padding-top: 0;
+  }
+
+  .hu-canvas {
+    top: 0;
+    left: 42%;
+    width: 58%;
+    height: 100%;
+  }
+
+  .hu-content {
+    max-width: min(560px, 50%);
+  }
+}
+
+/* The fixed sidebar occupies the first 300px on extra-wide screens. */
+@media (min-width: 1200px) {
+  .hu-hero {
+    padding-left: 300px;
+  }
+
+  .hu-canvas {
+    left: calc(300px + (100% - 300px) * 0.4);
+    width: calc((100% - 300px) * 0.6);
+  }
+}
+
+@media (max-width: 575px) {
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hu-bg {
+    position: absolute;
+    inset: 0;
+    width: auto;
+    height: auto;
+  }
+
+  .hu-content > * {
+    opacity: 1;
+    animation: none;
+  }
+}
