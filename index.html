@@ -426,7 +426,7 @@
             <form action="https://formsubmit.co/zakis2k2@gmail.com" method="POST" role="form" class="php-email-form">
               <input type="hidden" name="_subject" value="New message from your portfolio">
               <input type="hidden" name="_template" value="table">
-              <input type="hidden" name="_next" value="https://zaki-shah-portfolio.vercel.app/">
+              <input type="hidden" name="_captcha" value="false">
               <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
               <div class="row">
                 <div class="form-group col-md-6">
@@ -446,7 +446,7 @@
                 <label for="message">Message</label>
                 <textarea class="form-control" name="message" id="message" rows="10" required></textarea>
               </div>
-              <div class="my-3"></div>
+              <div class="my-3 text-center" id="form-status" role="status" aria-live="polite"></div>
               <div class="text-center"><button type="submit">Send Message</button></div>
             </form>
           </div>
@@ -472,6 +472,36 @@
   
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+  <script>
+    (function () {
+      var form = document.querySelector('form.php-email-form');
+      if (!form) return;
+      var status = document.getElementById('form-status');
+      var btn = form.querySelector('button[type="submit"]');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        status.style.color = '';
+        status.textContent = 'Sending...';
+        btn.disabled = true;
+        fetch('https://formsubmit.co/ajax/zakis2k2@gmail.com', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(form)
+        }).then(function (r) { return r.json(); }).then(function (d) {
+          if (d.success === 'true' || d.success === true) {
+            status.style.color = '#18d26e';
+            status.textContent = 'Your message has been sent. Thank you!';
+            form.reset();
+          } else {
+            throw new Error(d.message || 'Failed');
+          }
+        }).catch(function () {
+          status.style.color = '#df1529';
+          status.textContent = 'Message could not be sent. Please email zakis2k2@gmail.com directly.';
+        }).finally(function () { btn.disabled = false; });
+      });
+    })();
+  </script>
   <script src="assets/js/hero-universe.js" defer></script>
 
 </body>
